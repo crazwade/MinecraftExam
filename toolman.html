@@ -1,0 +1,89 @@
+<!DOCTYPE HTML>
+<!--
+	Snapshot by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+	<head>
+		<title>測試員</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!-- Custom CSS -->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!-- Firebase link -->
+		<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
+		<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+
+		<script>
+			//連結firebase
+			firebase.initializeApp({
+				databaseURL: "https://minecraft-use-default-rtdb.firebaseio.com/"
+			});
+			var database = firebase.database();
+			var rootRef = firebase.database().ref();
+			var urlRef = rootRef.child("Stu");
+			var stu_name_ary = [];
+			var i = 0;
+			urlRef.once("value", function(snapshot) {
+				snapshot.forEach(function(child) {
+					stu_name_ary[i] = child.key;
+					i++;
+				});
+				Run_name();
+			});
+
+            function Run_name(){
+                tmp = '';
+                str = '';
+                for(var i=0;i<stu_name_ary.length;i++){
+                    tmp = "<option value="+stu_name_ary[i]+">"+stu_name_ary[i]+"</option>"
+                    str = str + tmp;
+                    tmp = '';
+                }
+                document.querySelector(".name_option").innerHTML = "<select name='' id='index_name' style='color: black;'>"+str+"</select>";
+            }
+
+            document.ready(Run_name());
+
+            function goindex(){
+                var index_name = document.getElementById('index_name').value;
+                window.open('index.html?name='+index_name, '_blank');
+            }
+		</script>
+	</head>
+	<body>
+		<div class="page-wrap">
+			<!-- Main -->
+				<section id="main">
+
+					<!-- Banner -->
+						<section id="banner" style="height: 100vh;"> 
+							<div class="inner">
+								<h1></h1>
+								<ul class="actions">
+                                    <div class="name_option">
+
+                                    </div>
+                                    <li><a  class="button alt scrolly big" style="margin-top: 20px;" onclick="goindex()">檢查</a></li>
+								</ul>
+							</div>
+						</section>
+                        <script>
+                            function run_option(str){
+                                //document.querySelector(".name_option").innerHTML = "<h1>123</h1>";
+                                //alert(str);
+                            }
+                        </script>
+		</div>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.poptrox.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<script src="assets/js/main.js"></script>
+           
+	</body>
+</html>
