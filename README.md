@@ -30,23 +30,42 @@ root
             detail:detail.png
             
 {
+
   "Stu" : {
+  
     "Jacky" : {
+    
       "1111" : {
+      
         "png" : "10.png",
+        
         "score" : "80"
+        
       },
+      
       "2222" : {
+      
         "png" : "10.png",
+        
         "score" : "80"
+        
       }
+      
     }
+    
   },
+  
   "data" : {
+  
     "20210321" : {
+    
       "avg" : "avg.png",
+      
       "detail" : "detail.png"
+      
     }
+    
   }
+  
 }
 
