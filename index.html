@@ -152,22 +152,22 @@
 
 							<!-- Form -->
 								<div class="column">
-									<h3>Get in Touch</h3>
+									<h3>有任何疑問嗎?</h3>
 									<form action="#" method="post">
 										<div class="field half first">
-											<label for="name">Name</label>
+											<label for="name">您的名字或是孩子的誰</label>
 											<input name="name" id="name" type="text" placeholder="Name">
 										</div>
-										<div class="field half">
+										<!-- <div class="field half">
 											<label for="email">Email</label>
-											<input name="email" id="email" type="email" placeholder="Email">
-										</div>
+											<input name="email" id="Mailemail" type="email" placeholder="Email">
+										</div> -->
 										<div class="field">
-											<label for="message">Message</label>
+											<label for="message">請填入您的問題，將盡快修正或回覆</label>
 											<textarea name="message" id="message" rows="6" placeholder="Message"></textarea>
 										</div>
 										<ul class="actions">
-											<li><input value="Send Message" class="button" type="submit"></li>
+											<li><input value="送出" class="button" onclick="leaveMessage()"></li>
 										</ul>
 									</form>
 								</div>
@@ -181,6 +181,36 @@
 							</div>
 						</footer>
 				</section>
+				<script>
+					function leaveMessage(){
+						var name = document.getElementById('name').value;
+						var message = document.getElementById('message').value;
+						var year = new Date().getFullYear();
+						var month = new Date().getMonth()+1;
+						var day = new Date().getDate();
+						var hour = new Date().getHours();
+						var minute = new Date().getMinutes();
+						var second = new Date().getSeconds();
+						var today = year+"/"+month+"/"+day+" "+hour+":"+minute+":"+second;
+
+						var check_num = [];
+						i = 0;
+						var urlgoto = rootRef.child("question");
+
+						urlgoto.once("value", function(snapshot) {
+							snapshot.forEach(function(child) {
+								check_num[i] = child.key;
+								i++;
+							});
+							database.ref('/question').child(check_num.length).set({name:name,content:message,time:today});
+						});
+
+						document.getElementById('name').value = '';
+						document.getElementById('message').value = '';
+
+						alert("你的建議或疑問已經送出，將盡快處理和回覆，謝謝。");
+					}
+				</script>
 		</div>
 
 		<!-- Scripts -->
