@@ -197,18 +197,22 @@
 						i = 0;
 						var urlgoto = rootRef.child("question");
 
-						urlgoto.once("value", function(snapshot) {
+						if(name===""||message===""){
+							alert("請檢查是否有輸入內容喔");
+						}else{
+							urlgoto.once("value", function(snapshot) {
 							snapshot.forEach(function(child) {
 								check_num[i] = child.key;
 								i++;
+								});
+								database.ref('/question').child(check_num.length).set({name:name,content:message,time:today});
 							});
-							database.ref('/question').child(check_num.length).set({name:name,content:message,time:today});
-						});
 
-						document.getElementById('name').value = '';
-						document.getElementById('message').value = '';
+							document.getElementById('name').value = '';
+							document.getElementById('message').value = '';
 
-						alert("你的建議或疑問已經送出，將盡快處理和回覆，謝謝。");
+							alert("你的建議或疑問已經送出，將盡快處理和回覆，謝謝。");
+						}
 					}
 				</script>
 		</div>
