@@ -1,5 +1,11 @@
 ﻿# MinecraftExam
 
+Login for tester
+https://crazwade.github.io/MinecraftExam/toolman.html
+
+Specific login
+https://crazwade.github.io/MinecraftExam/index.html?name=[學生姓名]
+
 首頁
 index.html?name=[學生姓名] => result.html?name=[學生姓名]&date=[日期]
 
