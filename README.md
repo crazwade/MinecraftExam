@@ -1,6 +1,6 @@
 ﻿# MinecraftExam
 
-Login for tester
+Tester 
 https://crazwade.github.io/MinecraftExam/toolman.html
 
 Specific login
