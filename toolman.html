@@ -16,10 +16,22 @@
 		<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
 
 		<script>
+			//連結firebase old version
+			//firebase.initializeApp({
+				//databaseURL: "https://minecraft-use-default-rtdb.firebaseio.com/"
+			//});
+			
 			//連結firebase
-			firebase.initializeApp({
-				databaseURL: "https://minecraft-use-default-rtdb.firebaseio.com/"
-			});
+			FileInputStream serviceAccount =
+			  new FileInputStream("path/to/serviceAccountKey.json");
+
+			FirebaseOptions options = new FirebaseOptions.Builder()
+			  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
+			  .setDatabaseUrl("https://minecraft-use-default-rtdb.firebaseio.com")
+			  .build();
+
+			firebase.initializeApp(options);
+			
 			var database = firebase.database();
 			var rootRef = firebase.database().ref();
 			var urlRef = rootRef.child("Stu");
