@@ -21,30 +21,42 @@
   <!-- Custom CSS -->
   <link href="css/stylish-portfolio.min.css" rel="stylesheet">
 
-  <!-- Firebase link -->
-  <script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-	<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
+  <!-- Query -->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js' integrity='sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==' crossorigin='anonymous'></script>
   <script>
-  //連結firebase
-  firebase.initializeApp({
-				databaseURL: "https://minecraft-use-default-rtdb.firebaseio.com/"
-			});
-			var database = firebase.database();
+  //串聯json
+  var data = [];
+  var stu_name_ary = [];
+  $(function(){
+    $.ajax({
+      url:'http://crazwade.github.io/MinecraftExam/json/data.json',
+      method:'get',
+      dataType:'json',
+      data:{}
+    }).done(function(res){
+      data = res;
+      console.log(res)
+      run_stu_avg()
+    }).fail(function(err){
+      console.log(err)
+    })
+  })
   //取得日期和學生名字
   var currentUrl = window.location.href;
 	var name_tmp = currentUrl.split('name=');
-  name_tmp = name_tmp[1].split('&');
   //名字
+  name_tmp = name_tmp[1].split('&');
   var stu_name = decodeURI(name_tmp[0]);
-  var date_tmp = currentUrl.split('date=');
   //日期
+  var date_tmp = currentUrl.split('date=');
   var date = date_tmp[1];
   //取得學生考試成績的圖
   var avg_png;
-  database.ref('/Stu/'+stu_name+'/'+date).once('value',user_all=>{
-    avg_png = user_all.val().png;
+  function run_stu_avg(){
+    avg_png = data.Stu[stu_name][date].png;
+    console.log("avg_png:"+avg_png);
     show_stu_png();
-  });
+  }
   </script>
 </head>
 

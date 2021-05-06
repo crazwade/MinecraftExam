@@ -11,44 +11,42 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		<!-- Custom CSS -->
 		<link rel="stylesheet" href="assets/css/main.css" />
-		<!-- Firebase link -->
-		<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase.js"></script>
-		<script src="https://www.gstatic.com/firebasejs/4.12.1/firebase-firestore.js"></script>
-
+		<!-- Query -->
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js' integrity='sha512-bLT0Qm9VnAYZDflyKcBaQ2gg0hSYNQrJ8RilYldYQ1FxQYoCLtUjuuRuZo+fjqhx/qtq/1itJ0C2ejDxltZVFg==' crossorigin='anonymous'></script>
 		<script>
-			//連結firebase old version
-			//firebase.initializeApp({
-				//databaseURL: "https://minecraft-use-default-rtdb.firebaseio.com/"
-			//});
+			//串聯json
+			var data = [];
+			var stu_name_ary = [];
+			$(function(){
+				$.ajax({
+					url:'http://crazwade.github.io/MinecraftExam/json/data.json',
+					method:'get',
+					dataType:'json',
+					data:{}
+				}).done(function(res){
+					data = res;
+					console.log(res)
+					run_student_name()
+					Run_exam_record();
+				}).fail(function(err){
+					console.log(err)
+				})
+			})
 			
-			//連結firebase
-			FileInputStream serviceAccount =
-			  new FileInputStream("path/to/serviceAccountKey.json");
-
-			FirebaseOptions options = new FirebaseOptions.Builder()
-			  .setCredentials(GoogleCredentials.fromStream(serviceAccount))
-			  .setDatabaseUrl("https://minecraft-use-default-rtdb.firebaseio.com")
-			  .build();
-
-			firebase.initializeApp(options);
-			
-			var database = firebase.database();
 			//網址上抓學生名字
 			var currentUrl = window.location.href;
 			var name2 = currentUrl.split('name=');
 			var stu_name = decodeURI(name2[1]);
+			console.log(stu_name)
 			//抓資料庫內全部學生的名字
-			var rootRef = firebase.database().ref();
-			var urlRef = rootRef.child("Stu");
-			var stu_name_ary = [];
-			var i = 0;
-			urlRef.once("value", function(snapshot) {
-				snapshot.forEach(function(child) {
-					stu_name_ary[i] = child.key;
-					i++;
-				});
+			function run_student_name(){
+				for(var i=0;i<Object.keys(data.Stu).length;i++){
+					stu_name_ary[i] = Object.keys(data.Stu)[i];	
+				}
 				Run_name();
-			});
+				
+			}
+			
 			//防呆以免URL被亂填名字
 			function Run_name(){
 				check = 0;
@@ -61,7 +59,7 @@
 					document.querySelector(".show_name").innerHTML = "<h1>"+stu_name+"</h1>";
 					document.getElementById('banner').style.backgroundImage = "url('img/photo/"+stu_name+".jpg')";
 				}else{
-					document.querySelector(".page-wrap").innerHTML = "<h1>維修中...</h1>";
+					document.querySelector(".page-wrap").innerHTML = "<h1>查無學生，請確定名字有打對喔...</h1>";
 				}	
 			}
 		
@@ -69,15 +67,14 @@
 			//database.ref('/Stu').child(name).child(today).set({name:'user_name',key:'0',money:'100',deliver_time:'0'});
 			//抓學生名字底下總共有幾筆考試紀錄
 			var exam_day=[];
-			var i = 0;
-			var urlRef = rootRef.child("Stu/"+stu_name);
-			urlRef.once("value", function(snapshot) {
-				snapshot.forEach(function(child) {
-					exam_day[i] = child.key;
-					i++;
-				});
+			function Run_exam_record(){
+				for(var i=0;i<Object.keys(data.Stu[stu_name]).length;i++){
+					exam_day[i] = Object.keys(data.Stu[stu_name])[i];	
+				}
 				Run_date_btn();
-			});
+			}
+			
+
 			//產生日期的按鈕
 			function Run_date_btn(){
 				tmp = '';
